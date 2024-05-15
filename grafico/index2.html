@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Log Pulsos</title>
+		<link href="grafico/css/estilo2.css" rel="stylesheet" type="text/css">
+		
+	</head>
+
+	<body>
+		<div class="grafico">
+
+			<!--<canvas id="myChart" width="1250" height="370"></canvas>
+			<canvas id="chartAudio" width="1250" height="370"></canvas>-->
+			<canvas id="grafico"></canvas>
+			
+		</div>
+		<div class='divForm'>
+
+			<form action="/cgi-bin/cgigrafico.py">
+				<div class="formulario">
+					<label for="data">Data: </label>
+				</div>
+				<input type="date" id="data" name="data"><br><br>
+				
+				<label >Rádio:</label><br>
+				
+				<input type="radio" id="bnfm" name="nome" value="bandnewsfm"><label for="bnfm">Band News FM</label><br>
+				<input type="radio" id="bfm" name="nome" value="bandfm"><label for="bfm">Band FM</label><br>
+				<input type="radio" id="nfm" name="nome" value="nativafm"><label for="nfm">Nativa FM</label><br>
+				<input type="radio" id="pfm" name="nome" value="playfm"><label for="pfm">Play FM</label><br>
+				<input type="radio" id="rbfm" name="nome" value="rbfm"><label for="rbfm">Radio Bandeirantes FM</label><br><br>
+				
+				<label >Parâmetro:</label><br>
+				
+				<input type="radio" id="rds" name="parametro" value="rds"><label for="rds">RDS</label><br>
+				<input type="radio" id="fms" name="parametro" value="fmstation"><label for="fms">FM Station</label><br>
+				<input type="radio" id="est" name="parametro" value="estereo"><label for="est">Estereo</label><br>
+				<input type="radio" id="nivel" name="parametro" value="nivel"><label for="nivel">Nivel</label><br>
+				<input type="number" id="res" name="resolucao"><label for="res">Resolução</label><br>
+
+				<input type="time" id="horainicio" name="horainicio"><label for="horainicio"></label>Hora início<br>
+				<input type="time" id="horafinal" name="horafinal"><label for="horafinal"></label>Hora final<br>
+
+				<input type="submit" value="Enviar">
+			</form>
+		</div>
+	</body>
+</html>

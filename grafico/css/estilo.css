@@ -1,0 +1,27 @@
+body{
+	font-family: arial;
+	color: #aaa;
+	background-color: #000;
+}
+div{
+	text-align: left;
+	float: left;
+	font-size:10px;
+}
+div.formulario{
+	width:99.6%;
+	margin:0.1% 0.1% 0.1% 0.1% ;
+	background-color: #222;
+	padding: 5px;
+	vertical-align: middle;
+}
+#iframe1{
+	width: 1000px;
+	height: 400px;
+}
+input{
+	background-color: #667;
+}
+button{
+	background-color: #667;
+}

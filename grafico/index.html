@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Grafico</title>
+		<link href="css/estilo.css" rel="stylesheet" type="text/css">
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+		
+	</head>
+
+	<body>
+		<div class="grafico">
+
+			<canvas id="grafico" width="1400" height="500"></canvas>
+			
+		</div>
+
+		<div class='divForm'>
+
+			<form name="formulario" onsubmit="return atualiza()">
+				<div class="formulario">
+					<label for="data">Data: </label>
+				</div>
+				<input type="date" id="data" name="data"><br><br>
+
+				<br><br>
+				<label >Parâmetro:</label><br>
+
+				<input list="parametros" name="parametro">
+				
+				<datalist id="parametros">
+					<option value="Oxigenação"/>
+					<option value="Freq. Cardiaca"/>
+					<option value="Acelerometro"/>
+					<option value="Temperatura"/>
+					<option value="Giroscópio"/>
+				</datalist>
+				<br>
+
+				<input type="number" id="res" name="resolucao" value ="100"><label for="res">Resolução</label><br>
+
+				<input type="time" id="horainicio" name="horainicio"><label for="horainicio"></label>Hora início<br>
+				<input type="time" id="horafinal" name="horafinal"><label for="horafinal"></label>Hora final<br>
+
+			</form>
+
+			<button onclick="atualiza()">Atualizar</button>
+		</div>
+
+		<script type="text/javascript" src="js/js.js"></script>
+	</body>
+</html>
