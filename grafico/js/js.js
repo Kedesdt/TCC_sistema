@@ -1,4 +1,19 @@
 
+function aDZ(n){
+    n = "" + n
+    while (n.length < 2){
+        n = "0" + n
+    }
+    return n
+}
+
+function converteData(d){
+    let dataString_ = d;
+    let partes_ = dataString_.split(" ");
+    let dataPartes_ = partes_[1].split("/");
+    let novaDataString_ = `${dataPartes_[1]}/${dataPartes_[0]}/${dataPartes_[2]} ${partes_[0]}`;
+    return novaDataString_
+}
 
 async function atualiza() {
     let gData = document.forms["formulario"]["data"].value;
@@ -394,19 +409,18 @@ async function atualiza() {
 	});
 */
 
-    
-
-    
+     
     let data = [];
     let dataD = []
     let labels = []
+    let labelsG = []
 
     switch (gParametro){
         case "Oxigenação":
             await dataTotal.forEach((d) => {
 
                 if (d.oxi > 10){
-                    labels.push(d.dataHora);
+                    //labels.push(converteData(d.dataHora));
                     data.push(d.oxi);
                     dataD.push({"t": d.dataHora, "d": d.oxi});
                 }
@@ -416,7 +430,7 @@ async function atualiza() {
             await dataTotal.forEach((d) => {
 
                 if (d.freq > 10){
-                    labels.push(d.dataHora);
+                    //labels.push(converteData(d.dataHora));
                     data.push(d.freq);
                     dataD.push({"t": d.dataHora, "d": d.freq});
                 }
@@ -424,8 +438,9 @@ async function atualiza() {
             break;
         case "Acelerometro":
             await dataTotal.forEach((d) => {
-                labels.push(d.dataHora);
-                let dd = Math.max.apply(null, [Math.abs(d.ax), Math.abs(d.ay), Math.abs(d.az)])
+                //labels.push(converteData(d.dataHora));
+                //let dd = Math.max.apply(null, [Math.abs(d.ax), Math.abs(d.ay), Math.abs(d.az)])
+                let dd = Math.sqrt(d.ax*d.ax + d.ay*d.ay + d.az*d.az);
                 data.push(dd);
                 dataD.push({"t": d.dataHora, "d": dd});
             });
@@ -433,8 +448,9 @@ async function atualiza() {
         case "Giroscópio":
             await dataTotal.forEach((d) => {
 
-                labels.push(d.dataHora);
-                dd = Math.max(Math.abs(d.gx), Math.abs(d.gy), Math.abs(d.gz))
+                //labels.push(converteData(d.dataHora));
+                //let dd = Math.max(Math.abs(d.gx), Math.abs(d.gy), Math.abs(d.gz))
+                let dd = Math.sqrt(d.gx*d.gx + d.gy*d.gy + d.gz*d.gz);
                 data.push(dd);
                 dataD.push({"t": d.dataHora, "d": dd});
             });
@@ -443,7 +459,7 @@ async function atualiza() {
             await dataTotal.forEach((d) => {
 
                 if (d.temp > 10){
-                    labels.push(d.dataHora);
+                    //labels.push(converteData(d.dataHora));
                     data.push(d.temp)
                     dataD.push({"t": d.dataHora, "d": d.temp});
                 }
@@ -454,7 +470,6 @@ async function atualiza() {
 
     }
 
-
     let dataInicial = new Date(gData + " " + gHoraInicio);
     let dataFinal = new Date(gData + " " + gHoraFinal);
 
@@ -462,16 +477,22 @@ async function atualiza() {
     let tamanhoDoBloco = tamanhoEmSegundos / gResolucao;
 
     let mSInicial = dataInicial.getTime()
+    console.log(mSInicial);
 
     for (let i = 0; i <= gResolucao; i++){
-        let tempoInicial= mSInicial + (i * tamanhoEmSegundos)
-        let tempoFinal= mSInicial + ((i+1) * tamanhoEmSegundos) 
+        let tempoInicial= mSInicial + (i * tamanhoDoBloco)
+        let tempoFinal= mSInicial + ((i+1) * tamanhoDoBloco) 
         let dataHora_ = new Date(tempoInicial);
-        labels.push(dataHora_); 
+        labels.push(dataHora_.getTime()); 
+        labelsG.push(aDZ(dataHora_.getHours()) + ":" + aDZ(dataHora_.getMinutes()))
+        //labelsG.push(dataHora_)
     }
 
+    console.log("Labels " + labels)
+
     let index = 0;
-    let dataHoraBloco = new Date(labels[0])
+    let dataHoraBloco = new Date(labels[0]);
+    console.log(dataHoraBloco)
     
     let soma = 0
     let media = 0
@@ -487,25 +508,28 @@ async function atualiza() {
 
         console.log(i);
         console.log(index);
+        console.log("Maximo " + maximo);
 
         if (index >= labels.length){
             break
         }
-        console.log(dataD[i]["t"])
+        //console.log(dataD[i]["t"])
         //let dataHora_ = new Date(dataD[i]["t"])
 
-        let dataString = dataD[i]["t"];
-        let partes = dataString.split(" ");
-        let dataPartes = partes[1].split("/");
-        let novaDataString = `${dataPartes[1]}/${dataPartes[0]}/${dataPartes[2]} ${partes[0]}`;
-        let dataHora_ = new Date(novaDataString);
-        console.log(data);
+        //let dataString = dataD[i]["t"];
+        //let partes = dataString.split(" ");
+        //let dataPartes = partes[1].split("/");
+        //let novaDataString = `${dataPartes[1]}/${dataPartes[0]}/${dataPartes[2]} ${partes[0]}`;
+        //let dataHora_ = new Date(novaDataString);
+        let dataHora_ = new Date(converteData(dataD[i]["t"]));
 
-        console.log(dataHora_)
+        console.log("Data Hora Dado " +dataHora_)
         console.log(tamanhoDoBloco)
-        console.log(dataHoraBloco.getTime())
+        console.log("Data - Hora Bloco " + dataHoraBloco + " Proximo " + Date(dataHoraBloco.getTime() + tamanhoDoBloco))
+
+        console
         
-        while(dataHora_.getTime() > dataHoraBloco.getTime() + tamanhoDoBloco){
+        while((dataHora_.getTime() > dataHoraBloco.getTime() + tamanhoDoBloco)){
             
             if (n>0){
                 dataMMM[0].push(maximo)
@@ -520,12 +544,14 @@ async function atualiza() {
                 //dataMMM.push([null, null, null, labels[index]])
             }
             index ++;
+        
             dataHoraBloco = new Date(labels[index]);
-            let soma = 0
-            let media = 0
-            let maximo = 0
+            
+            soma = 0
+            media = 0
+            maximo = 0
             n = 0
-            let minimo = Infinity
+            minimo = Infinity
         }
 
         soma += dataD[i]['d']
@@ -541,9 +567,9 @@ async function atualiza() {
     console.log(dataMMM)
 
     myChart.data.datasets[0].data = dataMMM[0];
-    myChart.data.datasets[1].data = dataMMM[1];
-    myChart.data.datasets[2].data = dataMMM[2];
-    myChart.data.labels = labels;
+    myChart.data.datasets[1].data = dataMMM[2];
+    myChart.data.datasets[2].data = dataMMM[1];
+    myChart.data.labels = labelsG;
 
 	myChart.update();
 
