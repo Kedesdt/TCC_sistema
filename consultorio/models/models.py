@@ -216,4 +216,4 @@ class Mensagem(db.Model):
     time = db.Column(db.DateTime)
     de = db.Column(db.Integer)
 
-db.create_all()
+#db.create_all()

@@ -128,6 +128,19 @@ def chat(ID):
 
     return render_template('chat.html', title = paciente.pessoa.nome, paciente = paciente, usuario = usuario, tipo = tipo)
 
+@app.route('/graficos/<int:ID>')
+def graficos(ID):
+
+    v, usuario, acesso = verifica()
+    if not v:
+        return redirect(url_for('login'))
+
+    paciente = Paciente.query.filter_by(paciente_ID = ID).first()
+
+    tipo = session['tipo']
+
+    return render_template('graficos.html', title = paciente.pessoa.nome, paciente = paciente, usuario = usuario, tipo = tipo)
+
 @app.route('/login', methods = ["GET", "POST"])
 def login():
     form = Formulario_login(request.form)
